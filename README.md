@@ -9,7 +9,8 @@
 Material docente de la asignatura **Sistemas Informáticos Industriales** de la **Escuela Técnica Superior de Ingeniería y Diseño Industrial (ETSIDI)** de la **Universidad Politécnica de Madrid (UPM)**.
 
 #TRABAJOS DEL ESTUDIANTE (DIEGO RÍOS)
-practica 1: Se han insertado en los archivos Esfera.cpp y Raquetas.cpp los comandos necesarios para los movimientos de los mismos sin modificar nada externo
+
+practica 1: Se han insertado en los archivos Esfera.cpp y Raquetas.cpp los comandos necesarios para los movimientos de los mismos sin modificar nada externo, tambien se añade el archivo .gitignore y su configuración
 
 
 ---
