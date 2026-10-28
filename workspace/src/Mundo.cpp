@@ -144,6 +144,9 @@ void CMundo::OnTimer(int value)
 		char mensaje[100];
 		sprintf(mensaje, "Puntua jugador 2: %d-%d\n", puntos1, puntos2);
                 write(fd, mensaje, strlen(mensaje));
+                if (puntos1 >= 3 || puntos2 >= 3) {
+                  exit(0);
+                }
 	}
 
 	if(fondo_dcho.Rebota(esfera))
@@ -156,10 +159,11 @@ void CMundo::OnTimer(int value)
 		char mensaje[100];
 		sprintf(mensaje, "Puntua jugador 1: %d-%d\n", puntos1, puntos2);
                 write(fd, mensaje, strlen(mensaje));
-                if(puntos1||puntos2 >= 3) {
-                exit();
-                }
+                if (puntos1 >= 3 || puntos2 >= 3) {
+                 exit(0);
+                } 
 	}
+
 }
 
 void CMundo::OnKeyboardDown(unsigned char key, int x, int y)
