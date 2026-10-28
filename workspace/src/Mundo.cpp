@@ -10,6 +10,12 @@
 #include <string.h>
 #include <math.h>
 
+//includes p2
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -21,7 +27,7 @@ CMundo::CMundo()
 
 CMundo::~CMundo()
 {
-
+  close(fd);
 }
 
 void CMundo::InitGL()
@@ -135,6 +141,9 @@ void CMundo::OnTimer(int value)
 		esfera.velocidad.x=2+2*rand()/(float)RAND_MAX;
 		esfera.velocidad.y=2+2*rand()/(float)RAND_MAX;
 		puntos2++;
+		char mensaje[100];
+		sprintf(mensaje, "Puntua jugador 2: %d-%d\n", puntos1, puntos2);
+                write(fd, mensaje, strlen(mensaje));
 	}
 
 	if(fondo_dcho.Rebota(esfera))
@@ -144,8 +153,13 @@ void CMundo::OnTimer(int value)
 		esfera.velocidad.x=-2-2*rand()/(float)RAND_MAX;
 		esfera.velocidad.y=-2-2*rand()/(float)RAND_MAX;
 		puntos1++;
+		char mensaje[100];
+		sprintf(mensaje, "Puntua jugador 1: %d-%d\n", puntos1, puntos2);
+                write(fd, mensaje, strlen(mensaje));
+                if(puntos1||puntos2 >= 3) {
+                exit();
+                }
 	}
-
 }
 
 void CMundo::OnKeyboardDown(unsigned char key, int x, int y)
@@ -191,4 +205,8 @@ void CMundo::Init()
 	jugador2.g=0;
 	jugador2.x1=6;jugador2.y1=-1;
 	jugador2.x2=6;jugador2.y2=1;
+	
+	
+	//tuberia open en modo escritura
+	fd=open("FIFO", O_WRONLY);
 }

@@ -12,7 +12,7 @@ Material docente de la asignatura **Sistemas Informáticos Industriales** de la 
 
 practica 1: Se han insertado en los archivos Esfera.cpp y Raquetas.cpp los comandos necesarios para los movimientos de los mismos sin modificar nada externo, tambien se añade el archivo .gitignore y su configuración
 
-
+practica 2: [parte de clase]: Se ha realizado la FIFO y su codigo en el main y el logger correspondientes para su adecuado funcionamiento, luego se suben los cambios antes de realizar el apartado de propuestos
 ---
 
 ## 📖 Descripción
