@@ -20,6 +20,13 @@ Se han insertado en los archivos `Esfera.cpp` y `Raquetas.cpp` los comandos nece
 
 **Apartado propuesto:** Se ha añadido una condición para que el juego y el logger terminen cuando uno de los jugadores llega a 3 puntos.
 
+
+### 🔹 Práctica 3: 
+**Parte de clase:** Se ha realizado la proyección de memoria, se ha editado el bot.cpp, se ha implementado la logica para que e bot juegue una vez iniciado en una terminal como si pulsara teclas un jugador siguiendo con el centro de la raqueta el centro de la pelota.
+
+**Apartado propuesto:** Se ha añadido la funcionalidad de una variable bandera (flag) que detecta el final de partida y se lo dice a bot.cpp para que se cierre automaticamente igual que pasaba con logger.cpp
+
+**Extra:** Se ha añadido la funcionalidad de que la pelota no se mueva hasta presionada cualquiera de las teclas necesarias para mover las raquetas o la tecla 'r' en su defecto porque se perdian puntos al ir a la terminal a iniciar el bot.
 ---
 
 ## 📖 Descripción

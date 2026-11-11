@@ -16,6 +16,9 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
+//includes p3
+#include <sys/mman.h>
+
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -121,10 +124,18 @@ void CMundo::OnDraw()
 
 void CMundo::OnTimer(int value)
 {	
+//p3
+// Actualizamos los datos que compartimos con el bot
+datosCompartidos->esfera = esfera;
+datosCompartidos->raqueta1 = jugador1;
+
+  
 	jugador1.Mueve(0.025f);
 	jugador2.Mueve(0.025f);
+	if(move == 1){
 	esfera.Mueve(0.025f);
-	int i;
+	}
+        int i;
 	for(i=0;i<paredes.size();i++)
 	{
 		paredes[i].Rebota(esfera);
@@ -145,6 +156,7 @@ void CMundo::OnTimer(int value)
 		sprintf(mensaje, "Puntua jugador 2: %d-%d\n", puntos1, puntos2);
                 write(fd, mensaje, strlen(mensaje));
                 if (puntos1 >= 3 || puntos2 >= 3) {
+                  datosCompartidos -> res = 0;
                   exit(0);
                 }
 	}
@@ -160,9 +172,20 @@ void CMundo::OnTimer(int value)
 		sprintf(mensaje, "Puntua jugador 1: %d-%d\n", puntos1, puntos2);
                 write(fd, mensaje, strlen(mensaje));
                 if (puntos1 >= 3 || puntos2 >= 3) {
+                 datosCompartidos -> res = 0;
                  exit(0);
                 } 
 	}
+	
+	
+	//practica 3
+
+
+// Ejecutamos el movimiento que ha decidido el bot
+if (datosCompartidos->accion == 1)
+    OnKeyboardDown('w', 0, 0);
+else if (datosCompartidos->accion == -1)
+    OnKeyboardDown('s', 0, 0);
 
 }
 
@@ -172,10 +195,11 @@ void CMundo::OnKeyboardDown(unsigned char key, int x, int y)
 	{
 //	case 'a':jugador1.velocidad.x=-1;break;
 //	case 'd':jugador1.velocidad.x=1;break;
-	case 's':jugador1.velocidad.y=-4;break;
-	case 'w':jugador1.velocidad.y=4;break;
-	case 'l':jugador2.velocidad.y=-4;break;
-	case 'o':jugador2.velocidad.y=4;break;
+	case 's':jugador1.velocidad.y=-4;move = 1;break;
+	case 'w':jugador1.velocidad.y=4;move = 1;break;
+	case 'l':jugador2.velocidad.y=-4;move = 1;break;
+	case 'o':jugador2.velocidad.y=4;move = 1;break;
+	case 'r':move = 1;
 	}
 }
 
@@ -213,4 +237,20 @@ void CMundo::Init()
 	
 	//tuberia open en modo escritura
 	fd=open("FIFO", O_WRONLY);
+	
+	
+	//practica 3
+	
+      // Creamos el archivo compartido y le damos el tamaño necesario
+        int fdMem = open("DatosMemCompartida", O_CREAT | O_RDWR, 0666);
+        ftruncate(fdMem, sizeof(DatosMemCompartida));
+
+    // Proyectamos el archivo en memoria para compartir los datos con el bot
+        datosCompartidos = (DatosMemCompartida*) mmap(NULL, sizeof(DatosMemCompartida),PROT_READ | PROT_WRITE,  MAP_SHARED, fdMem, 0);
+
+        close(fdMem);
+
+    // Inicialmente el bot no mueve la raqueta y indica estado leyendo
+        datosCompartidos->accion = 0;
+        datosCompartidos->res = 1;
 }
